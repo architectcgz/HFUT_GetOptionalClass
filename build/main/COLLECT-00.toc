@@ -1,0 +1,236 @@
+([('main.exe',
+   'D:\\Documents\\Python Projects\\123\\build\\main\\main.exe',
+   'EXECUTABLE'),
+  ('selenium\\webdriver\\common\\windows\\selenium-manager.exe',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\selenium\\webdriver\\common\\windows\\selenium-manager.exe',
+   'BINARY'),
+  ('python311.dll', 'E:\\Python\\python311.dll', 'BINARY'),
+  ('_decimal.pyd', 'E:\\Python\\DLLs\\_decimal.pyd', 'EXTENSION'),
+  ('_hashlib.pyd', 'E:\\Python\\DLLs\\_hashlib.pyd', 'EXTENSION'),
+  ('_lzma.pyd', 'E:\\Python\\DLLs\\_lzma.pyd', 'EXTENSION'),
+  ('_bz2.pyd', 'E:\\Python\\DLLs\\_bz2.pyd', 'EXTENSION'),
+  ('_ssl.pyd', 'E:\\Python\\DLLs\\_ssl.pyd', 'EXTENSION'),
+  ('unicodedata.pyd', 'E:\\Python\\DLLs\\unicodedata.pyd', 'EXTENSION'),
+  ('select.pyd', 'E:\\Python\\DLLs\\select.pyd', 'EXTENSION'),
+  ('_socket.pyd', 'E:\\Python\\DLLs\\_socket.pyd', 'EXTENSION'),
+  ('_queue.pyd', 'E:\\Python\\DLLs\\_queue.pyd', 'EXTENSION'),
+  ('_uuid.pyd', 'E:\\Python\\DLLs\\_uuid.pyd', 'EXTENSION'),
+  ('pyexpat.pyd', 'E:\\Python\\DLLs\\pyexpat.pyd', 'EXTENSION'),
+  ('api-ms-win-crt-heap-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-heap-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-runtime-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-runtime-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-convert-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-convert-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-math-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-math-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-stdio-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-stdio-l1-1-0.dll',
+   'BINARY'),
+  ('VCRUNTIME140.dll', 'E:\\Python\\VCRUNTIME140.dll', 'BINARY'),
+  ('api-ms-win-crt-process-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-process-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-environment-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-environment-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-string-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-string-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-time-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-time-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-locale-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-locale-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-filesystem-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-filesystem-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-conio-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-conio-l1-1-0.dll',
+   'BINARY'),
+  ('libcrypto-1_1.dll', 'E:\\Python\\DLLs\\libcrypto-1_1.dll', 'BINARY'),
+  ('libssl-1_1.dll', 'E:\\Python\\DLLs\\libssl-1_1.dll', 'BINARY'),
+  ('api-ms-win-crt-utility-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-utility-l1-1-0.dll',
+   'BINARY'),
+  ('ucrtbase.dll',
+   'C:\\Program Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\ucrtbase.dll',
+   'BINARY'),
+  ('api-ms-win-core-interlocked-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-interlocked-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-profile-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-profile-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-string-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-string-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-synch-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-synch-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-errorhandling-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-errorhandling-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-synch-l1-2-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-synch-l1-2-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processthreads-l1-1-1.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-1.dll',
+   'BINARY'),
+  ('api-ms-win-core-datetime-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-datetime-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processthreads-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-util-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-util-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-namedpipe-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-namedpipe-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-memory-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-memory-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-timezone-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-timezone-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-libraryloader-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-libraryloader-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processenvironment-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processenvironment-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-sysinfo-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-sysinfo-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-handle-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-handle-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l1-2-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l1-2-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-console-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-console-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-localization-l1-2-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-localization-l1-2-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l2-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l2-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-rtlsupport-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-rtlsupport-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-heap-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-heap-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-debug-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-debug-l1-1-0.dll',
+   'BINARY'),
+  ('base_library.zip',
+   'D:\\Documents\\Python Projects\\123\\build\\main\\base_library.zip',
+   'DATA'),
+  ('certifi\\cacert.pem',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\certifi\\cacert.pem',
+   'DATA'),
+  ('certifi\\py.typed',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\certifi\\py.typed',
+   'DATA'),
+  ('selenium\\webdriver\\common\\mutation-listener.js',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\selenium\\webdriver\\common\\mutation-listener.js',
+   'DATA'),
+  ('selenium\\webdriver\\common\\devtools\\v85\\py.typed',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\selenium\\webdriver\\common\\devtools\\v85\\py.typed',
+   'DATA'),
+  ('selenium\\webdriver\\remote\\getAttribute.js',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\selenium\\webdriver\\remote\\getAttribute.js',
+   'DATA'),
+  ('selenium\\webdriver\\remote\\findElements.js',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\selenium\\webdriver\\remote\\findElements.js',
+   'DATA'),
+  ('selenium\\webdriver\\firefox\\webdriver_prefs.json',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\selenium\\webdriver\\firefox\\webdriver_prefs.json',
+   'DATA'),
+  ('selenium\\py.typed',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\selenium\\py.typed',
+   'DATA'),
+  ('selenium\\webdriver\\common\\devtools\\v116\\py.typed',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\selenium\\webdriver\\common\\devtools\\v116\\py.typed',
+   'DATA'),
+  ('selenium\\webdriver\\common\\devtools\\v117\\py.typed',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\selenium\\webdriver\\common\\devtools\\v117\\py.typed',
+   'DATA'),
+  ('selenium\\webdriver\\common\\devtools\\v118\\py.typed',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\selenium\\webdriver\\common\\devtools\\v118\\py.typed',
+   'DATA'),
+  ('selenium\\webdriver\\common\\linux\\selenium-manager',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\selenium\\webdriver\\common\\linux\\selenium-manager',
+   'DATA'),
+  ('selenium\\webdriver\\remote\\isDisplayed.js',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\selenium\\webdriver\\remote\\isDisplayed.js',
+   'DATA'),
+  ('selenium\\webdriver\\common\\macos\\selenium-manager',
+   'D:\\Documents\\Python '
+   'Projects\\Django4\\Django基础\\Django快速入门\\code\\DjangoPro2\\venv\\Lib\\site-packages\\selenium\\webdriver\\common\\macos\\selenium-manager',
+   'DATA')],)
