@@ -195,7 +195,7 @@ def orgraniseNext(exist_class_list):
             print(
                 f'你的选修模块不足6个，请在以下模块{all_class_set - cls_set}中继续选修{6 - len(cls_set)}个模块的课程，补足选修模块和学分')
     elif credits >= 12 and len(cls_set) >= 6:
-        print('恭喜你的同时教育选修课已满足毕业要求')
+        print('恭喜你的通识教育选修课已满足毕业要求')
     else:
         print(
             f'你的通识教育选修学分已达到12分，但你的选修模块为{len(cls_set)}个,不足6个，请在以下模块{all_class_set - cls_set}'
