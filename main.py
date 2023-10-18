@@ -14,16 +14,6 @@ def login(driver):
     WebDriverWait(driver, 1000).until(
         EC.presence_of_element_located((By.XPATH, "//div[@class='menu-group-title' and @data-v-04f76387]"))
     )
-    # wait = WebDriverWait(driver, 5)
-    #
-    # account_input = wait.until(EC.presence_of_element_located((By.ID, 'u')))
-    # account_input.send_keys('2022217414')
-    #
-    # pwd_input = wait.until(EC.presence_of_element_located((By.ID, 'p')))
-    # pwd_input.send_keys('Yourloverczf23452.')
-    #
-    # account_login = wait.until(EC.presence_of_element_located((By.ID, 'submit')))
-    # account_login.click()
 
     print('已成功登录，开始获取内容')
     class_table = WebDriverWait(driver, 5).until(
