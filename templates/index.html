@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>获取选修课成绩小工具</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap-4.6.2-dist/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin: 0 auto;
+        }
+
+        .head {
+            font-size: 20px;
+            padding-top: 10px;
+        }
+
+        .head h1 {
+            text-align: center;
+        }
+
+        .head .introduction {
+            width: auto;
+            text-align: center;
+        }
+
+        .result {
+            padding-top: 20px;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="head">
+        <h1 style="background-color: #8fd19e">欢迎使用本工具查询你的选修课</h1>
+
+        <div class="card bg-warning">
+            <div class="card-header">
+                此工具的功能
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p>
+                        本工具可以获取当前你选修过的通识教育选修课，并显示学分，课程类型；还可给您提出接下来选修课程的建议。
+                    </p>
+                </blockquote>
+            </div>
+        </div>
+
+        <div class="introduction" style="background-color: #b1dfbb">
+            点击下方按钮登录HFUT教务网站即可获取
+        </div>
+    </div>
+
+    <div style="padding-top: 5px;padding-bottom: 5px"></div>
+
+    <div style="text-align: center">
+        <button onclick="login_clicked(this)" type="button" class="btn btn-primary" data-toggle="button"
+                aria-pressed="false">
+            点击此处登录HFUT教务网站
+        </button>
+    </div>
+
+
+    <div class="result hide">
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">查询结果如下</h4>
+            <p id='organised-result'>
+
+            </p>
+            <hr>
+            <p class="mb-0">Keep it up!</p>
+        </div>
+
+        <table class="table table-striped table-dark" id='class-table'>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">课程名称</th>
+                <th scope="col">课程类型</th>
+                <th scope="col">课程学分</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="/static/js/jquery-3.7.1.min.js"></script>
+<script src="/static/plugins/bootstrap-4.6.2-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function login_clicked(self) {
+        fetch('/run/function', {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(data => {
+                //将得到的字符串推荐结果放到p标签中 将结果显示出来
+                $("#organised-result").text(data.result[0])
+                $(self).parent().next().removeClass("hide");
+                //课程列表
+                const resultList = data.result[1];
+                //['大学语文', '公选-文化、语言与文学', '2']
+                let cnt = 1;
+                //<tr>  给每个列表中的元素创建下面的html片段
+                // <th scope="row">1</th>
+                // <td>大学语文</td>
+                // <td>公选-文化、语言与文学</td>
+                // <td>2</td>
+                // </tr>
+                const fragment = document.createDocumentFragment(); // 创建文档片段
+
+                for (const list of resultList) {
+                    const tr = document.createElement('tr'); // 创建<tr>元素
+                    const th = document.createElement('th');
+                    th.setAttribute('scope', 'row');
+                    th.textContent = cnt.toString();
+                    const td1 = document.createElement('td');
+                    td1.textContent = list[0];
+                    const td2 = document.createElement('td');
+                    td2.textContent = list[1];
+                    const td3 = document.createElement('td');
+                    td3.textContent = list[2];
+                    tr.appendChild(th);
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tr.appendChild(td3);
+                    fragment.appendChild(tr); // 将<tr>元素添加到文档片段
+                    cnt++;
+                }
+                const tbody = document.getElementById('class-table').getElementsByTagName('tbody')[0];
+                tbody.appendChild(fragment); // 一次性附加文档片段到表格的<tbody元素
+                // const $fragment = $('<div>'); // Create a jQuery fragment
+                //
+                // for (const list of resultList) {
+                //     const $tr = $('<tr>'); // Create a <tr> element using jQuery
+                //     const $th = $('<th>', {'scope': 'row', 'text': cnt.toString()});
+                //     const $td1 = $('<td>', {'text': list[0]});
+                //     const $td2 = $('<td>', {'text': list[1]});
+                //     const $td3 = $('<td>', {'text': list[2]});
+                //
+                //     $tr.append($th, $td1, $td2, $td3); // Append the elements to the <tr> element
+                //     $fragment.append($tr); // Append the <tr> element to the jQuery fragment
+                //     cnt++;
+                // }
+                //
+                // const $tbody = $('#class-table tbody'); // 找到table标签
+                // $tbody.append($fragment.children()); // Append the children of the fragment to the <tbody>
+
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
+
+</body>
+</html>
