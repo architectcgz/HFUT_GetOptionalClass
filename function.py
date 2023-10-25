@@ -8,22 +8,6 @@ from bs4 import BeautifulSoup
 from login import login_hfut
 
 
-def getStartYear(driver, special_id):
-    # 转到课表
-    driver.get(f'http://jxglstu.hfut.edu.cn/eams5-student/for-std/course-table/info/{special_id}')
-    WebDriverWait(driver, 5)
-    # 获取页面内容(起始学期)
-    html_content = driver.page_source
-    # use BeautifulSoup to parse the HTML
-    soup = BeautifulSoup(html_content, 'html.parser')
-    # 注释下是浏览器不隐藏状态下的获取h2标签内容的方法
-    h2_tag = soup.find('h2', class_='info-title')
-    info = h2_tag.get_text(strip=True)
-    start_index = info.index('(') + 1
-    # 获取如2022这样的入学年份
-    start_year = info[start_index:start_index + 4:]
-    return int(start_year)
-
 
 def getOneSemester(driver, url):
     driver.get(url)
@@ -61,8 +45,7 @@ def getOneSemester(driver, url):
     return lst_result
 
 
-def getAll(driver, special_id):
-    start_year = getStartYear(driver, special_id)
+def getAll(driver, special_id,start_year):
     website = 'http://jxglstu.hfut.edu.cn/eams5-student/for-std/course-table/info/all-courses?semesterId={}&dataId={}'
     start_semester_id = 114 + (start_year - 2020) * 2 * 20
     month = datetime.datetime.now().month
@@ -124,9 +107,9 @@ def organiseNext(exist_class_list):
 
 def execute():
     driver = webdriver.Edge()
-    special_id = login_hfut(driver)
+    special_id,start_year = login_hfut(driver)
 
-    result = getOptionalCourseList(getAll(driver, special_id))
+    result = getOptionalCourseList(getAll(driver, special_id,start_year))
     print()
     organise_next = organiseNext(result)
     driver.quit()
