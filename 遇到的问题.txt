@@ -1,0 +1,5 @@
+教务在Firefox 的部分cookie策略是HttpOnly的，通过seledium无法获得，所以没办法从Firefox获取Cookie
+当然可以通过点击的方式来获取，但是这种方式执行效率太低。
+Chrome也是无法获取到Cookie 
+与此同时，校务网站在Firefox与在Edge的显示策略不同，使用Firefox时部分元素会发生遮挡现象（可能是Firefox加载过慢倒导致的），这个也能解决，但加上上面的无法获取完整Cookie，还是无法用Firefox来运行。
+所以这两种方式都弃用了，目前只能通过Edge浏览器来获取Cookie并执行。

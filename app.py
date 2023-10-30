@@ -1,10 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from utils.getOptionalClass import GetOptionalClass
 
 app = Flask(__name__)
 
 
-@app.route('/index/')
+@app.route('/index/', methods=['GET'])
 def index():
     return render_template('index.html')
 
@@ -17,4 +17,5 @@ def run_function():
 
 
 if __name__ == '__main__':
-    app.run()
+    print('请在浏览器中输入下面的网址: http://127.0.0.1:5000/index')
+    app.run(port=5000)
