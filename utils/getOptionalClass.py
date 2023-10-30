@@ -1,8 +1,6 @@
-import concurrent.futures
 import datetime
 import json
 import time
-
 import requests
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -21,10 +19,9 @@ class GetOptionalClass:
         start1 = time.time()
         self.optionalCourseList = self.__get_optional_courses()
         end1 = time.time()
-        print('选修课程列表获取完成，用时{}'.format(end1-start1))
+        print('选修课程列表获取完成，用时{}'.format(end1 - start1))
         self.opCourseSuggestion = self.__organiseNext()
         print(self.opCourseSuggestion)
-
 
     def __login_hfut(self):
         self.__driver.get(
@@ -118,22 +115,15 @@ class GetOptionalClass:
 
         result = []
         semester_count = 1
-
-        # 使用线程池来同时获取每个学期的课程数据
-        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-            futures = {
-                executor.submit(self.__fetch_course_data, semester_id, self.__special_id): semester_id
-                for semester_id in range(start_semester_id, end_semester_id + 1, 20)}
-
-            for future in concurrent.futures.as_completed(futures):
-                this_semester_course = future.result()
-                if this_semester_course:
-                    result.append(this_semester_course)
-                print(f'第{semester_count}学期的课程数据已成功获取')
-                semester_count += 1
-            # 将三维数据转化为二维的
-            result1 = sum(result,[])
-            print(result1)
+        for semester_id in range(start_semester_id, end_semester_id + 1, 20):
+            this_semester_course = self.__fetch_course_data(semester_id, self.__special_id)
+            if this_semester_course:
+                result.append(this_semester_course)
+            print(f'第{semester_count}学期的课程数据已成功获取')
+            semester_count += 1
+            # 将三维信息[总信息[每一个学期的信息[课程信息]]]转化为二维
+        result1 = sum(result, [])
+        print(result1)
         return result1
 
     def __get_courses_one_semester(self, url):
@@ -175,4 +165,3 @@ class GetOptionalClass:
             result = f'你的通识教育选修学分已达到 12 分，但你的选修模块为 {len(cls_set)} 个, 不足 6 个，请在以下模块 {remaining_modules_set} 中继续选修 {remaining_modules} 个模块的课程，补足选修模块'
 
         return result
-
