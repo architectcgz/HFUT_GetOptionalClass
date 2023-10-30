@@ -1,5 +1,5 @@
-from flask import Flask, render_template, jsonify
-from function import execute
+from flask import Flask, render_template
+from utils.getOptionalClass import GetOptionalClass
 
 app = Flask(__name__)
 
@@ -9,9 +9,10 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/run/function/', methods=['POST'])
+@app.route('/optional/courses/', methods=['GET'])
 def run_function():
-    return jsonify(result=execute())
+    s = GetOptionalClass()
+    return render_template('optional_courses.html', courseList=s.optionalCourseList, suggestion=s.opCourseSuggestion)
 
 
 if __name__ == '__main__':
