@@ -28,6 +28,21 @@
         .hide {
             display: none;
         }
+
+        .footer {
+            background-color: #b1dfbb;
+            position: absolute;
+            bottom: 0;
+            left: 0; /* 将 left 设置为 0，使页脚水平居中 */
+            right: 0; /* 将 right 设置为 0，使页脚水平居中 */
+            text-align: center; /* 使文本水平居中 */
+            padding: 10px; /* 可以根据需要添加内边距 */
+        }
+        .footer .a{
+            display: block;
+            font-size: 20px;
+        }
+
     </style>
 </head>
 <body>
@@ -52,36 +67,40 @@
         <div class="introduction" style="background-color: #b1dfbb">
             点击下方按钮登录HFUT教务网站即可获取
         </div>
-
     </div>
 
-    <div style="padding-top: 5px;padding-bottom: 5px"></div>
-
-    <div style="text-align: center;">
-        <a id='btn' onclick="load(this)" class="btn-success btn" href="/optional/courses/">点击此处登录HFUT教务网站</a>
+    <div style="padding-top: 5px;padding-bottom: 5px;text-align: center">
+         <a id='btn' onclick="load(this)" class="btn-success btn" href="/optional/courses/">点击此处登录HFUT教务网站</a>
     </div>
 
-    <div class="hide" style="text-align: center;padding-top: 15px">
-        <div style="font-size: 10px">查询中...</div>
-        <div style="font-size: 10px">请耐心等待</div>
-        <div class="loading three-balls-bounce" style="margin: 0 auto"><!-- 将加载动画在按钮正下方显示 -->
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="shadow"></div>
-            <div class="shadow"></div>
-            <div class="shadow"></div>
+    <div class="hide" style="text-align: center;">
+        <div style="text-align: center;padding-top: 15px">
+            <div style="font-size: 10px">查询中...</div>
+            <div style="font-size: 10px">请耐心等待</div>
+            <div class="loading three-balls-bounce" style="margin: 0 auto"><!-- 将加载动画在按钮正下方显示 -->
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="shadow"></div>
+                <div class="shadow"></div>
+                <div class="shadow"></div>
+            </div>
         </div>
     </div>
 
-
-
+    <div class="footer">
+        <a href="https://github.com/architectcgz/HFUT_GetOptionalClass" target="_blank">
+            此项目在github上开源,点击此处跳转到源代码页面
+        </a>
+    </div>
 </div>
+
+
 <script src="/static/js/jquery-3.7.1.min.js"></script>
 <script src="/static/plugins/bootstrap-4.6.2-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     function load(self) {
-       $(self).parent().next().removeClass('hide')
+        $(self).parent().next().removeClass('hide')
     }
 </script>
 </body>

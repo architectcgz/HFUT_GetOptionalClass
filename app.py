@@ -12,6 +12,7 @@ def index():
 @app.route('/optional/courses/', methods=['GET'])
 def run_function():
     s = GetOptionalClass()
+    print('数据获取完成，向前端传递')
     return render_template('optional_courses.html', courseList=s.optionalCourseList, suggestion=s.opCourseSuggestion)
 
 

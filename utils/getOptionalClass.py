@@ -1,5 +1,8 @@
+import concurrent.futures
 import datetime
 import json
+import time
+
 import requests
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -13,11 +16,15 @@ class GetOptionalClass:
         # 请求头 包含user-agent和cookie 由login_hfut获取
         self.__headers = {}
         self.__special_id, self.__start_year = self.__login_hfut()
-        self.__courses = self.__get_all_courses()
-        self.optionalCourseList = self.__getOptionalCourses(self.__courses)
-        self.opCourseSuggestion = self.__organiseNext(self.optionalCourseList)
         # 退出driver
         self.__driver.quit()
+        start1 = time.time()
+        self.optionalCourseList = self.__get_optional_courses()
+        end1 = time.time()
+        print('选修课程列表获取完成，用时{}'.format(end1-start1))
+        self.opCourseSuggestion = self.__organiseNext()
+        print(self.opCourseSuggestion)
+
 
     def __login_hfut(self):
         self.__driver.get(
@@ -85,11 +92,49 @@ class GetOptionalClass:
         self.__driver.switch_to.window(parent_window)
         # 关闭最后的页面
         self.__driver.close()
-        # 退出driver
-        self.__driver.quit()
 
         # 关闭页面，退出Driver 便于后续爬取课程数据
         return special_id, start_year
+
+    def __calculate_end_semester_id(self):
+        month = datetime.datetime.now().month
+        year = datetime.datetime.now().year
+        if 2 <= month <= 7:
+            return ((year - 2020) * 2 - 1) * 2 * 20 + 114
+        else:
+            if year % 2 == 0:
+                return (year - 1 - 2020) * 2 * 20 + 114
+            else:
+                return (year - 2020) * 2 * 20 + 114
+
+    def __fetch_course_data(self, semester_id, special_id):
+        url = 'http://jxglstu.hfut.edu.cn/eams5-student/for-std/course-table/get-data?bizTypeId=23&semesterId={}&dataId={}'.format(
+            semester_id, special_id)
+        return self.__get_courses_one_semester(url)
+
+    def __get_optional_courses(self):
+        start_semester_id = 114 + (self.__start_year - 2020) * 2 * 20
+        end_semester_id = self.__calculate_end_semester_id()
+
+        result = []
+        semester_count = 1
+
+        # 使用线程池来同时获取每个学期的课程数据
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+            futures = {
+                executor.submit(self.__fetch_course_data, semester_id, self.__special_id): semester_id
+                for semester_id in range(start_semester_id, end_semester_id + 1, 20)}
+
+            for future in concurrent.futures.as_completed(futures):
+                this_semester_course = future.result()
+                if this_semester_course:
+                    result.append(this_semester_course)
+                print(f'第{semester_count}学期的课程数据已成功获取')
+                semester_count += 1
+            # 将三维数据转化为二维的
+            result1 = sum(result,[])
+            print(result1)
+        return result1
 
     def __get_courses_one_semester(self, url):
         # 每次都需要带着请求头请求
@@ -99,67 +144,35 @@ class GetOptionalClass:
         data = json.loads(html_content)
         lst_result = []
         for item in data['lessons']:
-            lst_result.append([item['course']['nameZh'], item['course']['credits'], item['courseType']['nameZh']])
-        print(lst_result)
+            if item['courseType']['nameZh'][0:2] == '慕课' or item['courseType']['nameZh'][0:2] == '公选':
+                lst_result.append([item['course']['nameZh'], item['course']['credits'], item['courseType']['nameZh']])
         return lst_result
 
-    def __get_all_courses(self):
-        website = 'http://jxglstu.hfut.edu.cn/eams5-student/for-std/course-table/get-data?bizTypeId=23&semesterId={}&dataId={}'
-        start_semester_id = 114 + (self.__start_year - 2020) * 2 * 20
-        month = datetime.datetime.now().month
-        year = datetime.datetime.now().year
-        if 2 <= month <= 7:
-            end_semester_id = ((year - 2020) * 2 - 1) * 2 * 20 + 114
-        else:
-            if year % 2 == 0:
-                end_semester_id = (year - 1 - 2020) * 2 * 20 + 114
-            else:
-                end_semester_id = (year - 2020) * 2 * 20 + 114
-        now_semester_id = start_semester_id
-        result = []
-        semester_count = 1
-        while now_semester_id <= end_semester_id:
-            url = website.format(now_semester_id, self.__special_id)
-            result.append(self.__get_courses_one_semester(url))
-            print(f'第{semester_count}学期的课程数据已成功获取')
-            # 防止速度过快发生You have sent too many requests in a given amount of time.
-            # time.sleep(1)
-            semester_count += 1
-            now_semester_id += 20
-        return result
+    def __organiseNext(self):
+        all_class_set = {
+            '哲学、历史与心理学', '文化、语言与文学', '经济、管理与法律', '自然、环境与科学',
+            '信息、技术与工程', '艺术、体育与健康', '就业、创新与创业',
+            '社会、交往与礼仪', '人生规划、品德与修养'
+        }
 
-    def __getOptionalCourses(self, lst):
-        """
-        从所有课程list中得到选修课的list
-        :param lst:所有课程的列表
-        :return:
-        """
-        result = []
-        for semesters in lst:
-            for classes in semesters:
-                if classes[2][0:2] == '公选' or classes[2][0:2] == '慕课':
-                    result.append(classes)
-        return result
+        cls_set = set(course[2][3::] for course in self.optionalCourseList)
+        credits = sum(course[1] for course in self.optionalCourseList)
 
-    def __organiseNext(self, exist_class_list):
-        all_class_set = {'哲学、历史与心理学', '文化、语言与文学', '经济、管理与法律', '自然、环境与科学',
-                         '信息、技术与工程',
-                         '艺术、体育与健康', '就业、创新与创业', '社会、交往与礼仪', '人生规划、品德与修养'}
-        cls_set = set()  # 当前选修过的课程名集合
-        credits = 0  # 当前的选修学分
-        for cls in exist_class_list:
-            cls_set.add(cls[2][3::])
-            credits += cls[1]
-        result = ''
+        result = f'当前你的通识教育选修学分为 {credits}, 不足 12 学分\n'
+
         if credits < 12:
-            result += f'当前你的通识教育选修学分为{credits},不足12学分\n'
             if len(cls_set) >= 6:
-                result += '你的选修模块已满足6个，可选修所有模块的任意课程，来补足学分'
+                result += '你的选修模块已满足 6 个，可选修所有模块的任意课程，来补足学分'
             else:
-                result += f'你你的选修模块为{len(cls_set)}个,不足6个，请在以下模块{all_class_set - cls_set}中继续选修{6 - len(cls_set)}个模块的课程，补足选修模块和学分'
+                remaining_modules = 6 - len(cls_set)
+                remaining_modules_set = all_class_set - cls_set
+                result += f'你的选修模块为 {len(cls_set)} 个, 不足 6 个，请在以下模块 {remaining_modules_set} 中继续选修 {remaining_modules} 个模块的课程，补足选修模块和学分'
         elif credits >= 12 and len(cls_set) >= 6:
-            result += '恭喜你的通识教育选修课已满足毕业要求'
+            result = '恭喜你的通识教育选修课已满足毕业要求'
         else:
-            result += f'你的通识教育选修学分已达到12分，但你的选修模块为{len(cls_set)}个,不足6个，请在以下模块{all_class_set - cls_set}' \
-                      f'中继续选修{6 - len(cls_set)}个模块的课程，补足选修模块'
+            remaining_modules = 6 - len(cls_set)
+            remaining_modules_set = all_class_set - cls_set
+            result = f'你的通识教育选修学分已达到 12 分，但你的选修模块为 {len(cls_set)} 个, 不足 6 个，请在以下模块 {remaining_modules_set} 中继续选修 {remaining_modules} 个模块的课程，补足选修模块'
+
         return result
+
