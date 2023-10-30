@@ -11,17 +11,16 @@ from selenium import webdriver
 class GetOptionalClass:
     def __init__(self):
         self.__driver = webdriver.Edge()
-        # 请求头 包含user-agent和cookie 由login_hfut获取
+        # 请求头 包含user-agent和cookie,由login_hfut获取
         self.__headers = {}
         self.__special_id, self.__start_year = self.__login_hfut()
-        # 退出driver
+        # 在这里退出driver 不要在__login_hfut中退出
         self.__driver.quit()
         start1 = time.time()
         self.optionalCourseList = self.__get_optional_courses()
         end1 = time.time()
         print('选修课程列表获取完成，用时{}'.format(end1 - start1))
         self.opCourseSuggestion = self.__organiseNext()
-        print(self.opCourseSuggestion)
 
     def __login_hfut(self):
         self.__driver.get(
@@ -32,17 +31,6 @@ class GetOptionalClass:
                 (By.CSS_SELECTOR, 'a.btn.btn-sx.btn-success[type="button"][href="/eams5-student/neusoft-sso/login"]'))
         )
         login_new.click()
-
-        wait = WebDriverWait(self.__driver, 5)
-
-        account_input = wait.until(EC.presence_of_element_located((By.ID, 'username')))
-        account_input.send_keys('2022217414')
-
-        pwd_input = wait.until(EC.presence_of_element_located((By.ID, 'pwd')))
-        pwd_input.send_keys('Yourloverczf23452.')
-
-        account_login = wait.until(EC.presence_of_element_located((By.ID, 'sb2')))
-        account_login.click()
 
         # 等待用户登录成功，进入教务系统
         WebDriverWait(self.__driver, 1000).until(
@@ -123,7 +111,6 @@ class GetOptionalClass:
             semester_count += 1
             # 将三维信息[总信息[每一个学期的信息[课程信息]]]转化为二维
         result1 = sum(result, [])
-        print(result1)
         return result1
 
     def __get_courses_one_semester(self, url):
@@ -145,7 +132,9 @@ class GetOptionalClass:
             '社会、交往与礼仪', '人生规划、品德与修养'
         }
 
+        # 选修过的课程的类型集合
         cls_set = set(course[2][3::] for course in self.optionalCourseList)
+        # 统计学分
         credits = sum(course[1] for course in self.optionalCourseList)
 
         result = f'当前你的通识教育选修学分为 {credits}, 不足 12 学分\n'
