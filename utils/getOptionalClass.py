@@ -2,6 +2,7 @@ import datetime
 import json
 import time
 import requests
+import selenium.common
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -9,9 +10,14 @@ from selenium import webdriver
 
 
 class GetOptionalClass:
-    def __init__(self):
+    def __init__(self, browser_type):
+        if browser_type == 'Firefox':
+            self.__driver = webdriver.Firefox()
+        elif browser_type == 'Chrome':
+            self.__driver = webdriver.Chrome()
         # 因为大多数同学用的windows都自带Edge
-        self.__driver = webdriver.Edge()
+        else:
+            self.__driver = webdriver.Edge()
         # 请求头 包含user-agent和cookie,由login_hfut获取 User-Agent默认为Edge的
         self.__headers = {}
         self.__special_id, self.__start_year = self.__login_hfut()
@@ -24,19 +30,17 @@ class GetOptionalClass:
         self.opCourseSuggestion = self.__organiseNext()
 
     def __login_hfut(self):
-        self.__driver.get(
-            'http://jxglstu.hfut.edu.cn/eams5-student/home')
         # 使用新教务登录，有的人的旧教务密码不正确
-        login_new = WebDriverWait(self.__driver, 10).until(
-            EC.presence_of_element_located(
-                (By.CSS_SELECTOR, 'a.btn.btn-sx.btn-success[type="button"][href="/eams5-student/neusoft-sso/login"]'))
-        )
-        login_new.click()
+
+        self.__driver.get(
+            'https://cas.hfut.edu.cn/cas/login?service=http%3A%2F%2Fjxglstu.hfut.edu.cn%2Feams5-student%2Fneusoft-sso%2Flogin')
 
         # 等待用户登录成功，进入教务系统
+
         WebDriverWait(self.__driver, 1000).until(
             EC.presence_of_element_located((By.XPATH, '//div[@class="icon-menu-title" and text()="我的课表"]'))
         )
+
 
         print('已成功登录，开始获取内容')
         # 等待元素出现
@@ -47,15 +51,27 @@ class GetOptionalClass:
         # 获取元素的文本内容
         start_year = int(element.text)
 
-        # 如果输入学生号和密码的页面未加载完成，会出现遮挡的现象，使用以下方法处理
+        # 如果输入学生号和密码的页面不全屏，或者未加载完成，会出现遮挡的现象，使用以下方法处理
         # 等待遮挡元素不可见
-        WebDriverWait(self.__driver, 10).until(EC.invisibility_of_element_located((By.XPATH, "//div[@class='el-loading-spinner']")))
+        WebDriverWait(self.__driver, 10).until(
+            EC.invisibility_of_element_located((By.XPATH, "//div[@class='el-loading-spinner']")))
 
         # 执行操作
         class_table = WebDriverWait(self.__driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//div[@class='icon-menu-icon']"))
         )
         class_table.click()
+
+        # 获取User-Agent
+        user_agent = self.__driver.execute_script('return navigator.userAgent;')
+        self.__headers['User-Agent'] = user_agent
+
+        # 提前获取Cookie 不要在课表页面进行获取 FireFox无法从课表页面获取Cookie!
+        cookies = self.__driver.get_cookies()
+        print(cookies)
+        # 组装cookie
+        cookie = ''.join([f'{cookie["name"]}={cookie["value"]};' for cookie in cookies])
+        self.__headers['Cookie'] = cookie
 
         # 获取当前页面的句柄
         parent_window = self.__driver.current_window_handle
@@ -69,16 +85,6 @@ class GetOptionalClass:
         self.__driver.switch_to.window(new_window)
         # 获取special_id
         special_id = self.__driver.current_url[-6:]
-
-        # 获取User-Agent
-        user_agent = self.__driver.execute_script('return navigator.userAgent;')
-        self.__headers['User-Agent'] = user_agent
-        # 获取cookie FireFox可能执行过慢，无法获取到Cookie
-        cookies = self.__driver.get_cookies()
-        print(user_agent)
-        print(cookies)
-        cookie = ''.join([f'{cookie["name"]}={cookie["value"]};' for cookie in cookies])
-        self.__headers['Cookie'] = cookie
         # 注意关闭当前页面
         self.__driver.close()
         self.__driver.switch_to.window(parent_window)
@@ -124,7 +130,7 @@ class GetOptionalClass:
         # 每次都需要带着请求头请求
         response = requests.get(url, headers=self.__headers)
         html_content = response.text
-        print(html_content)
+
         # data是dict类型的
         data = json.loads(html_content)
         lst_result = []
@@ -132,8 +138,6 @@ class GetOptionalClass:
             if item['courseType']['nameZh'][0:2] == '慕课' or item['courseType']['nameZh'][0:2] == '公选':
                 lst_result.append([item['course']['nameZh'], item['course']['credits'], item['courseType']['nameZh']])
         return lst_result
-
-
 
     def __organiseNext(self):
         all_class_set = {
