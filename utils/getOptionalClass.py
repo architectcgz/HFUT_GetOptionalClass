@@ -2,7 +2,6 @@ import datetime
 import json
 import time
 import requests
-import selenium.common
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -30,25 +29,22 @@ class GetOptionalClass:
         self.opCourseSuggestion = self.__organiseNext()
 
     def __login_hfut(self):
-        # 使用新教务登录，有的人的旧教务密码不正确
 
+        # 使用新教务登录，有的人的旧教务密码不正确
         self.__driver.get(
             'https://cas.hfut.edu.cn/cas/login?service=http%3A%2F%2Fjxglstu.hfut.edu.cn%2Feams5-student%2Fneusoft-sso%2Flogin')
 
-        # 等待用户登录成功，进入教务系统
-
+        # 等待用户登录成功，进入教务系统  '我的课表'标签出现即登录成功
         WebDriverWait(self.__driver, 1000).until(
             EC.presence_of_element_located((By.XPATH, '//div[@class="icon-menu-title" and text()="我的课表"]'))
         )
 
-
         print('已成功登录，开始获取内容')
-        # 等待元素出现
+        # 等待元素出现(入学年份的标签)
         element = WebDriverWait(self.__driver, 10).until(
             EC.presence_of_element_located((By.XPATH, "//div[@class='li-value']"))
         )
-
-        # 获取元素的文本内容
+        # 获取元素的文本内容(入学年份)
         start_year = int(element.text)
 
         # 如果输入学生号和密码的页面不全屏，或者未加载完成，会出现遮挡的现象，使用以下方法处理
@@ -56,7 +52,7 @@ class GetOptionalClass:
         WebDriverWait(self.__driver, 10).until(
             EC.invisibility_of_element_located((By.XPATH, "//div[@class='el-loading-spinner']")))
 
-        # 执行操作
+        # 执行操作(点击'我的课表'进入课表页面)
         class_table = WebDriverWait(self.__driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//div[@class='icon-menu-icon']"))
         )
@@ -83,7 +79,7 @@ class GetOptionalClass:
         all_windows = self.__driver.window_handles
         new_window = [window for window in all_windows if window != parent_window][0]
         self.__driver.switch_to.window(new_window)
-        # 获取special_id
+        # 获取special_id(也就是课表Url中的dataId
         special_id = self.__driver.current_url[-6:]
         # 注意关闭当前页面
         self.__driver.close()
@@ -131,7 +127,7 @@ class GetOptionalClass:
         response = requests.get(url, headers=self.__headers)
         html_content = response.text
 
-        # data是dict类型的
+        # data是JSON类型的,将其转化为字典
         data = json.loads(html_content)
         lst_result = []
         for item in data['lessons']:
@@ -151,9 +147,8 @@ class GetOptionalClass:
         # 统计学分
         credits = sum(course[1] for course in self.optionalCourseList)
 
-        result = f'当前你的通识教育选修学分为 {credits}, 不足 12 学分\n'
-
         if credits < 12:
+            result = f'当前你的通识教育选修学分为 {credits}, 不足 12 学分\n'
             if len(cls_set) >= 6:
                 result += '你的选修模块已满足 6 个，可选修所有模块的任意课程，来补足学分'
             else:
