@@ -137,9 +137,9 @@ class GetOptionalClass:
 
     def __organiseNext(self):
         all_class_set = {
-            '哲学、历史与心理学', '文化、语言与文学', '经济、管理与法律', '自然、环境与科学',
-            '信息、技术与工程', '艺术、体育与健康', '就业、创新与创业',
-            '社会、交往与礼仪', '人生规划、品德与修养'
+            '哲学、历史与心理学', '文化、语言与文学', '经济、管理与法律',
+            '自然、环境与科学','信息、技术与工程', '艺术、体育与健康',
+            '就业、创新与创业','社会、交往与礼仪', '人生规划、品德与修养'
         }
 
         # 选修过的课程的类型集合
@@ -154,7 +154,7 @@ class GetOptionalClass:
             else:
                 remaining_modules = 6 - len(cls_set)
                 remaining_modules_set = all_class_set - cls_set
-                result += f'你的选修模块为 {len(cls_set)} 个, 不足 6 个，请在以下模块 {remaining_modules_set} 中继续选修 {remaining_modules} 个模块的课程，补足选修模块和学分'
+                result += f'你的选修模块为 {len(cls_set)} 个, 不足 6 个，\请在以下模块 {remaining_modules_set} 中继续选修 {remaining_modules} 个模块的课程，补足选修模块和学分'
         elif credits >= 12 and len(cls_set) >= 6:
             result = '恭喜你的通识教育选修课已满足毕业要求'
         else:
