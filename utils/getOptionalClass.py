@@ -53,7 +53,8 @@ class GetOptionalClass:
         class_table.click()
 
         # 获取元素的文本内容(入学年份)
-        start_year = int(self.__driver.find_element(By.XPATH,"(//li[@class='panel-li'])[2]//div[@class='li-value']").text)
+        start_year = int(
+            self.__driver.find_element(By.XPATH, "(//li[@class='panel-li'])[2]//div[@class='li-value']").text)
 
         # 获取User-Agent
         user_agent = self.__driver.execute_script('return navigator.userAgent;')
@@ -128,20 +129,20 @@ class GetOptionalClass:
         lst_result = []
         for item in data['lessons']:
             if item['courseType']['nameZh'][0:2] == '慕课' or item['courseType']['nameZh'][0:2] == '公选':
-                lst_result.append([item['course']['nameZh'], item['course']['credits'], item['courseType']['nameZh']])
+                lst_result.append([item['course']['nameZh'], item['courseType']['nameZh'], item['course']['credits']])
         return lst_result
 
     def __organiseNext(self):
         all_class_set = {
             '哲学、历史与心理学', '文化、语言与文学', '经济、管理与法律',
-            '自然、环境与科学','信息、技术与工程', '艺术、体育与健康',
-            '就业、创新与创业','社会、交往与礼仪', '人生规划、品德与修养'
+            '自然、环境与科学', '信息、技术与工程', '艺术、体育与健康',
+            '就业、创新与创业', '社会、交往与礼仪', '人生规划、品德与修养'
         }
 
         # 选修过的课程的类型集合
-        cls_set = set(course[2][3::] for course in self.optionalCourseList)
+        cls_set = set(course[1][3::] for course in self.optionalCourseList)
         # 统计学分
-        credits = sum(course[1] for course in self.optionalCourseList)
+        credits = sum(course[2] for course in self.optionalCourseList)
 
         if credits < 12:
             result = f'当前你的通识教育选修学分为 {credits}, 不足 12 学分\n'
