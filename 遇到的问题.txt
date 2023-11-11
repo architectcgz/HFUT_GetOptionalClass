@@ -3,3 +3,7 @@
 Chrome也是无法获取到Cookie 
 与此同时，校务网站在Firefox与在Edge的显示策略不同，使用Firefox时部分元素会发生遮挡现象（可能是Firefox加载过慢倒导致的），这个也能解决，但加上上面的无法获取完整Cookie，还是无法用Firefox来运行。
 所以这两种方式都弃用了，目前只能通过Edge浏览器来获取Cookie并执行。
+
+2023-10-31 18:25 以上问题均已解决。
+调整获取Cookie的位置后，现在可以用Edge/Chrome/Firefox三种浏览器进行操作。
+但是因为每个学生都有一个不同的课表id，所以现在还是只能通过Selenium的WebDriver先点击跳转到课表页面，获取课表id后再通过request来访问课表
