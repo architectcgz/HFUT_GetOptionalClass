@@ -40,12 +40,6 @@ class GetOptionalClass:
         )
 
         print('已成功登录，开始获取内容')
-        # 等待元素出现(入学年份的标签)
-        element = WebDriverWait(self.__driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//div[@class='li-value']"))
-        )
-        # 获取元素的文本内容(入学年份)
-        start_year = int(element.text)
 
         # 如果输入学生号和密码的页面不全屏，或者未加载完成，会出现遮挡的现象，使用以下方法处理
         # 等待遮挡元素不可见
@@ -58,13 +52,15 @@ class GetOptionalClass:
         )
         class_table.click()
 
+        # 获取元素的文本内容(入学年份)
+        start_year = int(self.__driver.find_element(By.XPATH,"(//li[@class='panel-li'])[2]//div[@class='li-value']").text)
+
         # 获取User-Agent
         user_agent = self.__driver.execute_script('return navigator.userAgent;')
         self.__headers['User-Agent'] = user_agent
 
         # 提前获取Cookie 不要在课表页面进行获取 FireFox无法从课表页面获取Cookie!
         cookies = self.__driver.get_cookies()
-        print(cookies)
         # 组装cookie
         cookie = ''.join([f'{cookie["name"]}={cookie["value"]};' for cookie in cookies])
         self.__headers['Cookie'] = cookie
@@ -80,7 +76,7 @@ class GetOptionalClass:
         new_window = [window for window in all_windows if window != parent_window][0]
         self.__driver.switch_to.window(new_window)
         # 获取special_id(也就是课表Url中的dataId
-        special_id = self.__driver.current_url[-6:]
+        data_id = self.__driver.current_url[-6:]
         # 注意关闭当前页面
         self.__driver.close()
         self.__driver.switch_to.window(parent_window)
@@ -88,7 +84,7 @@ class GetOptionalClass:
         self.__driver.close()
 
         # 关闭页面，退出Driver 便于后续爬取课程数据
-        return special_id, start_year
+        return data_id, start_year
 
     def __calculate_end_semester_id(self):
         month = datetime.datetime.now().month
@@ -101,9 +97,9 @@ class GetOptionalClass:
             else:
                 return (year - 2020) * 2 * 20 + 114
 
-    def __fetch_course_data(self, semester_id, special_id):
+    def __fetch_course_data(self, semester_id, data_id):
         url = 'http://jxglstu.hfut.edu.cn/eams5-student/for-std/course-table/get-data?bizTypeId=23&semesterId={}&dataId={}'.format(
-            semester_id, special_id)
+            semester_id, data_id)
         return self.__get_courses_one_semester(url)
 
     def __get_optional_courses(self):
@@ -154,7 +150,7 @@ class GetOptionalClass:
             else:
                 remaining_modules = 6 - len(cls_set)
                 remaining_modules_set = all_class_set - cls_set
-                result += f'你的选修模块为 {len(cls_set)} 个, 不足 6 个，\请在以下模块 {remaining_modules_set} 中继续选修 {remaining_modules} 个模块的课程，补足选修模块和学分'
+                result += f'你的选修模块为 {len(cls_set)} 个, 不足 6 个，请在以下模块 {remaining_modules_set} 中继续选修 {remaining_modules}个模块的课程，补足选修模块和学分'
         elif credits >= 12 and len(cls_set) >= 6:
             result = '恭喜你的通识教育选修课已满足毕业要求'
         else:
