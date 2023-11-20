@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询结果</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap-4.6.2-dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">查询结果如下</h4>
+                <p>
+                    {{ suggestion[0] }}测试
+                </p>
+                <p>
+                    {{ suggestion[1] }}测试
+                </p>
+                <hr>
+                <p class="mb-0">Keep it up!</p>
+            </div>
+
+            <div class="card-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-card-list" viewBox="0 0 16 16">
+                    <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                    <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                </svg>
+                选修课列表
+            </div>
+            <table class="table table-bordered" style="margin-bottom: 0">
+                <thead class="thead">
+                <tr>
+                    <th scope="col">课程名称</th>
+                    <th scope="col">课程类型</th>
+                    <th scope="col">课程学分</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in courseList %}
+                    <tr>
+                        <th scope="row">{{ obj[0] }}</th>
+                        <td>{{ obj[1] }}</td>
+                        <td>{{ obj[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div>
+            </div>
+        </div>
+    </div>
+
+
+<script src="/static/js/jquery-3.7.1.min.js"></script>
+<script src="/static/plugins/bootstrap-4.6.2-dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
