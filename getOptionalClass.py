@@ -28,7 +28,7 @@ class GetOptionalClass:
         print('选修课程列表获取完成，用时{}'.format(end1 - start1))
         self.opCourseSuggestion = self.__organiseNext()
 
-    def __login_hfut(self):
+    def login_hfut(self):
         # 使用新教务登录，有的人的旧教务密码不正确
 
         self.__driver.get(
@@ -109,7 +109,7 @@ class GetOptionalClass:
             semester_id, special_id)
         return self.__get_courses_one_semester(url)
 
-    def __get_optional_courses(self):
+    def get_optional_courses(self):
         start_semester_id = 114 + (self.__start_year - 2020) * 2 * 20
         end_semester_id = self.__calculate_end_semester_id()
 
@@ -138,7 +138,7 @@ class GetOptionalClass:
                 lst_result.append([item['course']['nameZh'], item['course']['credits'], item['courseType']['nameZh']])
         return lst_result
 
-    def __organiseNext(self):
+    def organiseNext(self):
         all_class_set = {
             '哲学、历史与心理学', '文化、语言与文学', '经济、管理与法律', '自然、环境与科学',
             '信息、技术与工程', '艺术、体育与健康', '就业、创新与创业',
@@ -167,3 +167,9 @@ class GetOptionalClass:
             result = f'你的通识教育选修学分已达到 12 分，但你的选修模块为 {len(cls_set)} 个, 不足 6 个，请在以下模块 {remaining_modules_set} 中继续选修 {remaining_modules} 个模块的课程，补足选修模块'
 
         return result
+
+if __name__ == "__main__":
+    getOptionalClass = GetOptionalClass()
+    getOptionalClass.login_hfut()
+    print(getOptionalClass.get_optional_courses)
+    print(getOptionalClass.organiseNext)
