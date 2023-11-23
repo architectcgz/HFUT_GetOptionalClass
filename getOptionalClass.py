@@ -19,9 +19,8 @@ class GetOptionalClass:
             self.__driver = webdriver.Edge()
         # 请求头 包含user-agent和cookie,由login_hfut获取 User-Agent默认为Edge的
         self.__headers = {}
-        self.__special_id, self.__start_year = self.__login_hfut()
-        # 在这里退出driver 不要在__login_hfut中退出
-        self.__driver.quit()
+        self.__special_id, self.__start_year = self.login_hfut()
+
         start1 = time.time()
         self.optionalCourseList = self.__get_optional_courses()
         end1 = time.time()
@@ -30,7 +29,7 @@ class GetOptionalClass:
 
     def login_hfut(self):
         # 使用新教务登录，有的人的旧教务密码不正确
-
+        
         self.__driver.get(
             'https://cas.hfut.edu.cn/cas/login?service=http%3A%2F%2Fjxglstu.hfut.edu.cn%2Feams5-student%2Fneusoft-sso%2Flogin')
 
@@ -41,10 +40,11 @@ class GetOptionalClass:
         )
 
 
-        print('已成功登录，开始获取内容')
+        print('已成功登录,开始获取内容,请稍作等待')
         # 等待元素出现
         element = WebDriverWait(self.__driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//div[@class='li-value']"))
+            
+             EC.presence_of_element_located((By.XPATH, "//div[@class='li-key' and text()='年级']/following-sibling::div[@class='li-value']"))
         )
 
         # 获取元素的文本内容
@@ -67,11 +67,10 @@ class GetOptionalClass:
 
         # 提前获取Cookie 不要在课表页面进行获取 FireFox无法从课表页面获取Cookie!
         cookies = self.__driver.get_cookies()
-        print(cookies)
         # 组装cookie
         cookie = ''.join([f'{cookie["name"]}={cookie["value"]};' for cookie in cookies])
         self.__headers['Cookie'] = cookie
-
+        
         # 获取当前页面的句柄
         parent_window = self.__driver.current_window_handle
         # 等待新窗口出现
@@ -84,12 +83,19 @@ class GetOptionalClass:
         self.__driver.switch_to.window(new_window)
         # 获取special_id
         special_id = self.__driver.current_url[-6:]
+
+        # 设置防盗链 表示从学校网站跳转到的
+        self.__headers['Referer'] = 'http://jxglstu.hfut.edu.cn/eams5-student/for-std/course-table/info/{}'.format(special_id)
+
         # 注意关闭当前页面
         self.__driver.close()
         self.__driver.switch_to.window(parent_window)
         # 关闭最后的页面
         self.__driver.close()
-
+        # driver已经不再需要，退出driver
+        self.__driver.quit()
+        # 释放掉driver的内存
+        del self.__driver
         # 关闭页面，退出Driver 便于后续爬取课程数据
         return special_id, start_year
 
@@ -109,7 +115,7 @@ class GetOptionalClass:
             semester_id, special_id)
         return self.__get_courses_one_semester(url)
 
-    def get_optional_courses(self):
+    def __get_optional_courses(self):
         start_semester_id = 114 + (self.__start_year - 2020) * 2 * 20
         end_semester_id = self.__calculate_end_semester_id()
 
@@ -138,7 +144,7 @@ class GetOptionalClass:
                 lst_result.append([item['course']['nameZh'], item['course']['credits'], item['courseType']['nameZh']])
         return lst_result
 
-    def organiseNext(self):
+    def __organiseNext(self):
         all_class_set = {
             '哲学、历史与心理学', '文化、语言与文学', '经济、管理与法律', '自然、环境与科学',
             '信息、技术与工程', '艺术、体育与健康', '就业、创新与创业',
@@ -169,7 +175,9 @@ class GetOptionalClass:
         return result
 
 if __name__ == "__main__":
-    getOptionalClass = GetOptionalClass()
-    getOptionalClass.login_hfut()
-    print(getOptionalClass.get_optional_courses)
-    print(getOptionalClass.organiseNext)
+    browser = input('请输入你电脑装有的浏览器(Edge-微软/Chrome-谷歌/Firefox-火狐)\n输入英文即可，如输入Edge:')
+    # 只需实例化getOptionalClass类，其余都将自动操作
+    getOptionalClass = GetOptionalClass(browser_type=browser)
+    print("你选修过的课程有:")
+    print(getOptionalClass.optionalCourseList)
+    print("你可以参考一下选修建议:\n"+getOptionalClass.opCourseSuggestion)
